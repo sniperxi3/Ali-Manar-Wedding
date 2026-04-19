@@ -103,10 +103,10 @@ export default function App() {
 
   return (
     <>
-      {/* Audio Element: Custom wedding track from Dropbox */}
+      {/* Audio Element: Using Dropbox direct link for custom wedding track */}
       <audio 
         ref={audioRef} 
-        src="https://dl.dropboxusercontent.com/scl/fi/4wobwa9mny91w5r5m047b/alimanar.mp3?rlkey=4pcvskzfwcrglu1veeompdhcd&st=ppm1f2cp" 
+        src="https://www.dropbox.com/scl/fi/4wobwa9mny91w5r5m047b/alimanar.mp3?rlkey=4pcvskzfwcrglu1veeompdhcd&st=ppm1f2cp&raw=1" 
         loop 
         preload="auto"
         onPlay={() => setIsPlaying(true)}
@@ -187,8 +187,11 @@ export default function App() {
             ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾
           </p>
 
-          <div className="text-[1.2rem] sm:text-[1.4rem] tracking-[1px] text-[#8a702d] italic mb-[10px]">
-            نتشرف بدعوتكم لحضور حفل زفاف
+          <div className="text-[1.1rem] sm:text-[1.3rem] leading-[2] tracking-[1px] text-[#8a702d] mb-[15px] text-center">
+            بكل حب ومودة يتشرف بدعوتكم<br />
+            <span className="font-bold text-[#1a1a1a] text-[1.3rem] sm:text-[1.5rem] my-1 block">الأستاذ ايوب خليل الجاف</span>
+            <span className="font-bold text-[#1a1a1a] text-[1.3rem] sm:text-[1.5rem] my-1 block">والأستاذ بادي عباس الحياني</span>
+            لحضور حفل زفاف ابنائهم
           </div>
 
           {/* Names */}
