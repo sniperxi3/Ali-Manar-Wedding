@@ -103,10 +103,10 @@ export default function App() {
 
   return (
     <>
-      {/* Audio Element: Reverted to a working direct MP3 link because Google Drive blocks direct audio embedding */}
+      {/* Audio Element: Custom wedding track from Dropbox */}
       <audio 
         ref={audioRef} 
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" 
+        src="https://dl.dropboxusercontent.com/scl/fi/4wobwa9mny91w5r5m047b/alimanar.mp3?rlkey=4pcvskzfwcrglu1veeompdhcd&st=ppm1f2cp" 
         loop 
         preload="auto"
         onPlay={() => setIsPlaying(true)}
