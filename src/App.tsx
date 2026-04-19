@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Volume2, VolumeX, MapPin } from 'lucide-react';
-import ReactPlayer from 'react-player';
 
 function Countdown({ targetDate }: { targetDate: Date }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -79,34 +78,40 @@ export default function App() {
   const weddingDate = new Date('2026-05-08T17:00:00');
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleOpen = () => {
     setIsOpened(true);
-    setIsPlaying(true);
+    if (audioRef.current) {
+      audioRef.current.play().catch((err) => {
+        console.error("Playback prevented:", err);
+      });
+    }
   };
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (audioRef.current.paused) {
+        audioRef.current.play().catch((err) => {
+          console.error("Playback error:", err);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
   };
 
   return (
     <>
-      {/* YouTube Audio Player (Hidden securely off-screen to prevent browser/YouTube blocking 1px tracking players) */}
-      <div className="fixed -top-[2000px] -left-[2000px] opacity-0 pointer-events-none w-[200px] h-[200px]">
-        <ReactPlayer 
-          url="https://youtu.be/xWATqF467sw" 
-          playing={isPlaying} 
-          loop={true}
-          volume={0.7}
-          width="200px"
-          height="200px"
-          config={{
-            youtube: {
-              playerVars: { autoplay: 0, controls: 0, disablekb: 1, origin: window.location.origin }
-            }
-          }}
-        />
-      </div>
+      {/* Audio Element: Reverted to a working direct MP3 link because Google Drive blocks direct audio embedding */}
+      <audio 
+        ref={audioRef} 
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" 
+        loop 
+        preload="auto"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
 
       {/* Floating Audio Control (only visible after opening) */}
       <motion.button
