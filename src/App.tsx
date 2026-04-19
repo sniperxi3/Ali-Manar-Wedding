@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Volume2, VolumeX, MapPin } from 'lucide-react';
+import ReactPlayer from 'react-player';
 
 function Countdown({ targetDate }: { targetDate: Date }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -78,33 +79,34 @@ export default function App() {
   const weddingDate = new Date('2026-05-08T17:00:00');
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleOpen = () => {
     setIsOpened(true);
-    if (audioRef.current) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
-    }
+    setIsPlaying(true);
   };
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   return (
     <>
-      {/* Audio Element: Using a reliable public domain/free MP3 link to ensure playback. 
-          You can replace this URL with your preferred wedding track later. */}
-      <audio ref={audioRef} loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg" />
-      </audio>
+      {/* YouTube Audio Player (Hidden securely off-screen to prevent browser/YouTube blocking 1px tracking players) */}
+      <div className="fixed -top-[2000px] -left-[2000px] opacity-0 pointer-events-none w-[200px] h-[200px]">
+        <ReactPlayer 
+          url="https://youtu.be/xWATqF467sw" 
+          playing={isPlaying} 
+          loop={true}
+          volume={0.7}
+          width="200px"
+          height="200px"
+          config={{
+            youtube: {
+              playerVars: { autoplay: 0, controls: 0, disablekb: 1, origin: window.location.origin }
+            }
+          }}
+        />
+      </div>
 
       {/* Floating Audio Control (only visible after opening) */}
       <motion.button
@@ -136,8 +138,12 @@ export default function App() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="z-10 text-center flex flex-col items-center bg-[#fffefc]/90 backdrop-blur-md p-10 sm:p-16 rounded-2xl border border-[#d4af37]/40 shadow-2xl relative"
             >
-              <h1 className="text-[3.5rem] sm:text-[4.5rem] text-[#1a1a1a] mb-2 leading-none font-normal -tracking-[1px]">علي ♥ منار</h1>
-              <p className="text-[1.1rem] sm:text-[1.3rem] text-[#8a702d] tracking-[3px] uppercase mb-10">لدعوتكم لحضور حفل زفافنا</p>
+              <div className="flex flex-col items-center gap-2 mb-6 sm:mb-8">
+                <h1 className="text-[3rem] sm:text-[4rem] text-[#1a1a1a] leading-none font-normal -tracking-[1px] m-0">الدكتور علي</h1>
+                <span className="text-[2rem] sm:text-[2.5rem] text-[#d4af37] font-serif leading-none opacity-90 my-1">♥</span>
+                <h1 className="text-[3rem] sm:text-[4rem] text-[#1a1a1a] leading-none font-normal -tracking-[1px] m-0">المهندسة منار</h1>
+              </div>
+              <p className="text-[1.1rem] sm:text-[1.3rem] text-[#8a702d] tracking-[3px] uppercase mb-10">دعوة حفل زفاف</p>
               <button
                 onClick={handleOpen}
                 className="group relative px-10 py-3 sm:py-4 bg-[#fdfcf8] border border-[#d4af37] text-[#d4af37] rounded-full text-[1.2rem] sm:text-[1.3rem] tracking-[1px] hover:bg-[#d4af37] hover:text-[#fffefc] transition-all duration-500 overflow-hidden shadow-lg hover:shadow-xl outline-none"
